@@ -31,7 +31,7 @@ namespace LibraryManagementSystem.Models
         //overriding the method
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server=USBLRCHAYDAS1;database=LMS_DB;Integrated Security = true");
+            optionsBuilder.UseSqlServer("server=connection_string;database=LMS_DB;Integrated Security = true");
         }
 
         //Dbset for Users_Table
