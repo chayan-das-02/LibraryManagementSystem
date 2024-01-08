@@ -1,0 +1,97 @@
+﻿@model IEnumerable<LibraryManagementSystem.Models.BooksModel>
+
+@{
+    ViewData["Title"] = "Books";
+}
+@*<link rel="stylesheet" href="~/css/site.css" />*@
+<style>
+    .div25 {
+        width: 15%;
+        height: 435px;
+        float: left;
+        padding: 10px;
+    }
+
+    .div75 {
+        width: 85%;
+        height: 435px;
+        float: right;
+        padding: 10px;
+    }
+
+    .text-area {
+        width: 300px;
+        height: 130px;
+        padding: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+    }
+</style>
+
+<div>
+    <div style="width: 100%; height: 50px; top: 0; text-align: center;">
+        <h2>All Books</h2>
+    </div>
+    <div class="div25">
+        <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="Home" asp-controller="Home">About</a>
+        <button class="btn btn-primary" style="width:100%; margin-bottom: 10px;" disabled>All Books</button> @*Disabled*@
+        <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="LendedBooks" asp-controller="Transaction">My Books</a>
+        <button class="btn btn-primary" style="width:100%; margin-bottom: 10px;">Profile</button>
+        @if (User.Identity.Name == "Admin")
+        {
+            <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="Index" asp-controller="Book">Admin Button</a>
+        }
+        @*<div style="height: 80px"></div>*@
+    </div>
+    <div class="div75">
+        @foreach (var book in Model)
+        {
+            <div class="container mt-5 mb-5">
+                <div class="d-flex justify-content-center row">
+                    <div class="col-md-10">
+                        <div class="row p-2 bg-white border rounded">
+                            <div class="col-md-3 mt-1">
+                                <a asp-action="Details" asp-controller="Book" asp-route-id="@book.book_id">
+                                    <img class="img-fluid img-responsive rounded product-image" src="@("~/images/"+book.image_path)" asp-append-version="true">
+                                </a>
+                            </div>
+                            <div class="col-md-6 mt-1">
+                                <h5>Title: @book.title</h5>
+                                @*<p style="background-color:aqua" class="text-justify text-truncate para mb-0">@book.description</p>*@
+                                @*<textarea rows="6" cols="40">Description: @book.description</textarea>*@
+                                <div class="text-area" style="">@book.description</div>
+                            </div>
+                            <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                                <div class="d-flex flex-row align-items-center">
+                                    <h4 class="mr-1">Author: @book.author</h4>
+                                </div>
+                                @*<h6 class="text-success">Free shipping</h6>*@
+                                @if (book.quantity > 0)
+                                {
+                                    <p class="text-success">Available</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">Unavailable</p>
+                                }
+                                <div class="d-flex flex-column mt-4">
+                                    @*<button class="btn btn-primary btn-sm" type="button">Details</button>*@
+                                    @*<button class="btn btn-outline-primary btn-sm mt-2"
+                                type="button" itemid="@book.quantity" id="btnAddToCart"
+                                onclick="AddToCart(this)">
+                                Lend
+                                </button>*@
+                                    <a class="btn btn-primary btn-sm" asp-action="Details" asp-controller="Book" asp-route-id="@book.book_id">Lend</a>
+                                </div>
+                                @*<a asp-controller="Order" asp-action="AddToCart" asp-route-id="@item.ItemID">Add To Cart</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿@model LibraryManagementSystem.Models.BooksModel
+
+@{
+    ViewData["Title"] = "EditBook";
+}
+
+@if (User.Identity.Name == "Admin")
+{
+    <h1>EditBook</h1>
+
+    <h4>BooksModel</h4>
+    <hr />
+    <p>@ViewBag.message</p>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="EditBook" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="book_id" />
+                <div class="form-group">
+                    <label asp-for="title" class="control-label"></label>
+                    <input asp-for="title" class="form-control" />
+                    <span asp-validation-for="title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="author" class="control-label"></label>
+                    <input asp-for="author" class="form-control" />
+                    <span asp-validation-for="author" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="quantity" class="control-label"></label>
+                    <input asp-for="quantity" class="form-control" />
+                    <span asp-validation-for="quantity" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+            <label asp-for="lended_unit" class="control-label"></label>
+            <input asp-for="lended_unit" class="form-control" />
+            <span asp-validation-for="lended_unit" class="text-danger"></span>
+            </div>*@
+                <div class="form-group">
+                    <label asp-for="description" class="control-label"></label>
+                    <input asp-for="description" class="form-control" />
+                    <span asp-validation-for="description" class="text-danger"></span>
+                </div>
+                @*<div class="form-group">
+            <label asp-for="status_id" class="control-label"></label>
+            <input asp-for="status_id" class="form-control" />
+            <span asp-validation-for="status_id" class="text-danger"></span>
+            </div>*@
+                @*<div class="form-group">
+            <label asp-for="image_path" class="control-label"></label>
+            <input asp-for="image_path" class="form-control" />
+            <span asp-validation-for="image_path" class="text-danger"></span>
+            </div>*@
+                <div class="form-group">
+                    <label asp-for="ImgFile" class="control-label"></label>
+                    <input asp-for="ImgFile" accept="image/*" />
+                    <span asp-validation-for="ImgFile" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+}
+else
+{
+    <h1 class="alert-danger position-absolute top-50 start-50 translate-middle">401 - Unauthorized</h1>
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

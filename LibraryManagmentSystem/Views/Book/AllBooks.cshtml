@@ -1,0 +1,111 @@
+﻿@model IEnumerable<LibraryManagementSystem.Models.BooksModel>
+
+@{
+    ViewData["Title"] = "AllBooks";
+}
+@if (User.Identity.Name == "Admin")
+{
+
+    <h1>AllBooks</h1>
+
+    <style>
+        .button-container {
+        display: flex;
+        flex-direction: column;
+        }
+
+        .text-area {
+        width: 300px;
+        height: 130px;
+        padding: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        }
+
+        a {
+        margin: 5px;
+        }
+    </style>
+
+    <h3 class="text-danger text-center">@TempData["successMessage"]</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.author)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.lended_unit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.status_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.image_path)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.author)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.lended_unit)
+                    </td>
+                    <td>
+                        <div class="text-area" style="">@item.description</div>
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.status_id)*@
+                        @if (item.quantity > 0)
+                        {
+                            <p class="btn btn-success">Available</p>
+                        }
+                        else
+                        {
+                            <p class="btn btn-danger">Unavailable</p>
+                        }
+
+                    </td>
+                    <td>
+                        <img class="img-fluid img-responsive rounded product-image" src="@("~/images/"+item.image_path)" asp-append-version="true">
+                    </td>
+                    <td>
+
+                        <div class="button-container">
+                            <a class="btn btn-outline-secondary" asp-action="EditBook" asp-route-id="@item.book_id">Edit</a>
+                            <a class="btn btn-outline-info" asp-action="Details" asp-route-id="@item.book_id">Details</a>
+                            <a class="btn btn-outline-danger" asp-action="RemoveBooks" asp-route-id="@item.book_id">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="alert-danger position-absolute top-50 start-50 translate-middle">401 - Unauthorized</h1>
+}

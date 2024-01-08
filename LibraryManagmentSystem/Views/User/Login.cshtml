@@ -1,0 +1,47 @@
+﻿@model LibraryManagementSystem.Models.UserLoginModel
+
+@{
+    ViewData["Title"] = "Login";
+
+    Layout = "~/Views/Shared/LoginLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row mt-lg-5">
+        <div class="col-4 offset-4 border border-primary rounded pl-5 pr-5 pb-5">
+
+            <h6 class="text-success text-center">@TempData["successMessage"]</h6>
+            <form method="post" asp-action="Login">
+                <p style="color:antiquewhite;" class="p-login">Login</p>
+                <div class="form-group">
+                    <label style="color:aliceblue" asp-for="user_name"></label>
+                    <input type="text" asp-for="user_name" class="form-control" placeholder="User name" autocomplete="off" />
+                    <span class="text-danger">@TempData["errorUserId"]</span>
+                </div>
+                <div class="form-group">
+                    <label style="color:aliceblue" asp-for="password"></label>
+                    <input type="password" asp-for="password" placeholder="Password" class="form-control" autocomplete="off" />
+                    <span class="text-danger">@TempData["errorPassword"]</span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-block btn-success mb-2" value="Log In" />
+
+                </div>
+                <div class="text-center">
+                    <a class="btn btn-block btn-primary mb-2" asp-action="Register" asp-controller="User">Sign Up</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.history.forward();
+    function noBack() {
+        window.history.forward();
+    }
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

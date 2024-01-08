@@ -1,0 +1,67 @@
+﻿@model LibraryManagementSystem.Models.BooksModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="container">
+    <div style="float:left; width:30%; padding:30px">
+        <img class="img-fluid img-responsive rounded product-image" height="300" src="@Url.Content("~/images/"+@Model.image_path)" alt="@Model.image_path" />
+    </div>
+    <div style="float:right; width:70%">
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.title)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.author)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.author)
+            </dd>
+            @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.lended_unit)
+            </dt>
+            <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.lended_unit)
+            </dd>*@
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.quantity)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.quantity)
+            </dd>
+            @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.status_id)
+            </dt>
+            <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.status_id)
+            </dd>*@
+            @*<dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.image_path)
+            </dt>
+            <dd class="col-sm-10">
+            @model.image_path)
+            </dd>*@
+        </dl>
+    </div>
+</div>
+<div>
+    @*<a asp-action="Edit" asp-route-id="@Model.book_id">Edit</a> |*@
+    @*<a asp-action="Index">Back to List</a>*@
+    @if(User.Identity.Name != "Admin")
+    {
+        <a class="btn btn-primary" asp-controller="Transaction" asp-action="Lend" asp-route-id="@Model.book_id">Get the book</a>
+    }
+</div>

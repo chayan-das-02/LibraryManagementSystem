@@ -1,0 +1,172 @@
+﻿@model IEnumerable<LibraryManagementSystem.Models.TransactionModel>
+
+@{
+    ViewData["Title"] = "LendedBooks";
+}
+
+<style>
+    .div25 {
+        width: 15%;
+        height: 435px;
+        float: left;
+        padding: 10px;
+    }
+
+    .div75 {
+        width: 85%;
+        height: 435px;
+        float: right;
+        padding: 10px;
+    }
+</style>
+
+<p class="alert-primary">@TempData["LendMessage"]</p>
+<div>
+    <div style="width: 100%; height: 50px; top: 0; text-align: center;">
+        <h2>Lended Books</h2>
+    </div>
+    <div class="div25">
+        <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="Home" asp-controller="Home">About</a>
+        <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="Books" asp-controller="Book">All Books</a>
+        <button class="btn btn-primary" style="width:100%; margin-bottom: 10px;" disabled>My Books</button>
+        <button class="btn btn-primary" style="width:100%; margin-bottom: 10px;">Profile</button>
+        @if (User.Identity.Name == "Admin")
+        {
+            <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="Index" asp-controller="Book">Admin Button</a>
+        }
+        @*<div style="height: 80px"></div>*@
+    </div>
+    <div class="div75">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.book_title)
+                    </th>
+                    @*<th>
+                    @Html.DisplayNameFor(model => model.user_name)
+                    </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.issue_date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.expected_return_date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.return_date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.past_due_day)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.issue_status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.return_status)
+                    </th>
+                    @*<th>
+                    @Html.DisplayNameFor(model => model.created_date)
+                    </th>
+                    <th>
+                    @Html.DisplayNameFor(model => model.modified_date)
+                    </th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    DateTime dateTime = new DateTime (1, 1, 1);
+                }
+
+                @foreach (var item in Model)
+                {
+                    @if (User.Identity.Name == item.user_name)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.book_title)
+                            </td>
+                            @*<td>
+                    @Html.DisplayFor(modelItem => item.user_name)
+                    </td>*@
+                            <td>
+                                @if (item.issue_date != dateTime)
+                                {
+                                    @Html.DisplayFor(modelItem => item.issue_date)
+                                }
+                            </td>
+                            <td>
+                                @if (item.expected_return_date != dateTime)
+                                {
+                                    @Html.DisplayFor(modelItem => item.expected_return_date)
+                                }
+                            </td>
+                            <td>
+                                @if (item.return_date != dateTime)
+                                {
+                                    @Html.DisplayFor(modelItem => item.return_date)
+                                }
+                            </td>
+                            <td>
+                                @*@Html.DisplayFor(modelItem => item.past_due_day)*@
+                                @{
+                                    var todayDate = DateTime.Now;
+                                    var dueDay = todayDate - item.expected_return_date;
+                                }
+                                @if (dueDay.Days >= 0 && dueDay.Days <=20)
+                                {
+                                    <p>@dueDay.Days</p>
+                                    <p class="btn badge">Y</p>
+                                }
+                                else
+                                {
+                                    <p class="btn badge">N</p>
+                                }
+                            </td>
+                            <td>
+                                @if (item.issue_status == "Approved")
+                                {
+                                    <p class="alert-success">@item.issue_status</p>
+                                }
+                                else
+                                {
+                                    <a class="alert-danger">@item.issue_status</a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.return_status == "Approved")
+                                {
+                                    <p class="alert-success">@item.return_status</p>
+                                }
+                                else
+                                {
+                                    <a class="alert-danger">@item.return_status</a>
+                                }
+                            </td>
+                            @*<td>
+                    @Html.DisplayFor(modelItem => item.created_date)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.modified_date)
+                    </td>*@
+                            @*<td>
+                    <a asp-action="Edit" asp-route-id="@item.transaction_id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.transaction_id">Details</a> |
+                    <a asp-action="Delete" asp- route-id="@item.transaction_id">Delete</a>
+                    </td>*@
+                            <td>
+                                @if (item.return_status == "Approved" || item.return_status == "Pending")
+                                {
+
+                                }
+                                else
+                                {
+                                    <a class="btn btn-danger" asp-action="Return" asp-route-id="@item.transaction_id">Return</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

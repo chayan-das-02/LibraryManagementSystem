@@ -1,0 +1,86 @@
+﻿@model LibraryManagementSystem.Models.TransactionModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TransactionModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="book_id" class="control-label"></label>
+                <input asp-for="book_id" class="form-control" />
+                <span asp-validation-for="book_id" class="text-danger"></span>
+            </div>
+            <div class="form-group unclickable">
+                <label asp-for="user_name" class="control-label"></label>
+                <input asp-for="user_name" class="form-control" value="@User.Identity.Name"/>
+                <span asp-validation-for="user_name" class="text-danger"></span>
+            </div>
+            <div class="form-group unclickable">
+                <label asp-for="issue_date" class="control-label" ></label>
+                <input type="date" asp-for="issue_date" class="form-control" id="today-date1" name="today-date1" />
+                <span asp-validation-for="issue_date" class="text-danger"></span>
+            </div>
+            <div class="form-group unclickable">
+                <label asp-for="expected_return_date" class="control-label"></label>
+                <input type="date" asp-for="expected_return_date" class="form-control" id="after7days" name="after7days" />
+                <span asp-validation-for="expected_return_date" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+                <label asp-for="return_date" class="control-label"></label>
+                <input asp-for="return_date" class="form-control" />
+                <span asp-validation-for="return_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="past_due_day" class="control-label"></label>
+                <input asp-for="past_due_day" class="form-control" />
+                <span asp-validation-for="past_due_day" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="created_date" class="control-label"></label>
+                <input asp-for="created_date" class="form-control" />
+                <span asp-validation-for="created_date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="modified_date" class="control-label"></label>
+                <input asp-for="modified_date" class="form-control" />
+                <span asp-validation-for="modified_date" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@*<script>
+    var today = new Date().toISOString().substr(0, 10);
+    document.getElementById("today-date1").value = today;
+    document.getElementById("today-date2").value = today;
+</script>*@
+
+<script>
+  var today = new Date();
+  var after7days = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+  
+  var todayISO = today.toISOString().substr(0, 10);
+  var after7daysISO = after7days.toISOString().substr(0, 10);
+  
+  document.getElementById("today-date1").value = todayISO;
+  document.getElementById("after7days").value = after7daysISO;
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

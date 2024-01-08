@@ -1,0 +1,179 @@
+﻿@model IEnumerable<LibraryManagementSystem.Models.TransactionModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (User.Identity.Name == "Admin")
+{
+    <h1>Index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.transaction_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.book_id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.book_title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.user_name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.issue_date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.expected_return_date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.return_date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.past_due_day)
+                </th>
+                @*<th>
+            @Html.DisplayNameFor(model => model.created_date)
+            </th>
+            <th>
+            @Html.DisplayNameFor(model => model.modified_date)
+            </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.issue_status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.return_status)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                //DateTime dateTime = DateTime.Parse("0001/01/01");
+                DateTime dateTime = new DateTime(1, 1, 1);
+            }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.transaction_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.book_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.book_title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.user_name)
+                    </td>
+                    <td>
+                        @if (item.issue_date != dateTime)
+                        {
+                            @Html.DisplayFor(modelItem => item.issue_date)
+                        }
+                    </td>
+                    <td>
+                        @if (item.expected_return_date != dateTime)
+                        {
+                            @Html.DisplayFor(modelItem => item.expected_return_date)
+                        }
+                    </td>
+                    <td>
+                        @if (item.issue_date != item.return_date)
+                        {
+                            @Html.DisplayFor(modelItem => item.return_date)
+                        }
+                    </td>
+                    <td>
+                        @*//@Html.DisplayFor(modelItem => item.past_due_day)
+                        @{
+
+                            var todayDate = DateTime.Now;
+                            var dueDay = todayDate - item.expected_return_date;
+                            // long n = long.Parse(dueDay.ToString("ddHHmmssMSMS"));
+                        }
+                        //@if (dueDay.TotalDays >= 0) //  && dueDay.TotalDays <= 10
+                        @if (dueDay.Days >= 0 && dueDay.Days <=20)
+                        {
+                            <p>@dueDay.Days</p>
+                            <p class="btn badge-success">Y</p>
+                        }
+                        else
+                        {
+                            <p>@dueDay.Days</p>
+                            <p class="btn badge-danger">N</p>
+                        }*@
+                        @if(item.return_status == "Approved")
+                        {
+                            int dueDays = (int)(item.return_date - item.expected_return_date).TotalDays;
+                            <p class="btn badge-success">@dueDays</p>
+                        }
+
+                        else{
+                            var currentDay = DateTime.Now;
+                            int remainingDays = (int)(item.expected_return_date - currentDay).TotalDays;
+                        
+                            @if(remainingDays >= 0)
+                            {
+                                @*<p>@remainingDays</p>*@
+                                <p class="btn badge-danger">Y</p>
+                            }
+                            else
+                            {
+                                @*<p>@remainingDays</p>*@
+                                <p class="btn badge-success">N</p>
+                            }
+                        }
+
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.created_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.modified_date)
+                    </td>*@
+                    <td>
+                        @if (item.issue_status == "Approved")
+                        {
+                            <p class="btn btn-success">@item.issue_status</p>
+                        }
+                        else
+                        {
+                            @*<a class="btn btn-danger" asp-action="Approve_issue" asp-route-id="@item.transaction_id">@item.issue_status</a>*@
+                            <a class="btn btn-danger" asp-action="Approve_issue" asp-route-id="@item.transaction_id">Approve</a>
+                        }
+                    </td>
+
+                    <td>
+                        @if (item.return_status == "Approved")
+                        {
+                            <p class="btn btn-success">@item.return_status</p>
+                        }
+                        else if (item.return_status == "Pending")
+                        {
+                            @*<a class="btn btn-danger" asp-action="Approve_return" asp-route-id="@item.transaction_id">@item.return_status</a>*@
+                            <a class="btn btn-danger" asp-action="Approve_return" asp-route-id="@item.transaction_id">Approve</a>
+                        }
+                        else
+                        {
+
+                        }
+                    </td>
+                    @*<td>
+            <a asp-action="Edit" asp-route-id="@item.transaction_id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.transaction_id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.transaction_id">Delete</a>
+            </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h1 class="alert-danger position-absolute top-50 start-50 translate-middle">401 - Unauthorized</h1>
+}

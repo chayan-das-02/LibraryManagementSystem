@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .div25 {
+        width: 15%;
+        height: 435px;
+        float: left;
+        padding: 10px;
+    }
+
+    .div75 {
+        width: 85%;
+        height: 435px;
+        float: right;
+        padding: 10px;
+    }
+</style>
+
+<div>
+    <div style="width: 100%; height: 50px; top: 0; text-align: center;">
+        <h2>Library Management System</h2>
+    </div>
+    <div class="div25">
+        <button class="btn btn-primary" style="width:100%; margin-bottom: 10px;" disabled>About</button>
+        <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="Books" asp-controller="Book">All Books</a>
+        <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="LendedBooks" asp-controller="Transaction">My Books</a>
+        <button class="btn btn-primary" style="width:100%; margin-bottom: 10px;">Profile</button>
+        @if (User.Identity.Name == "Admin")
+        {
+            <a class="btn btn-primary" style="width:100%; margin-bottom: 10px;" asp-action="Index" asp-controller="Book">Admin Button</a>
+        }
+        @*<div style="height: 80px"></div>*@
+    </div>
+    <div class="div75">
+        <p>
+            The motto "Unlocking Knowledge, Inspiring Minds: Your Gateway to Wisdom"
+            encapsulates the essence and purpose of a library. It emphasizes the library's
+            role as a key to accessing knowledge and information, symbolizing the doors
+            that open to reveal a vast world of learning and understanding. The library
+            serves as a gateway, inviting individuals to explore and expand their
+            horizons, fostering intellectual growth and curiosity. By providing resources,
+            literature, and a nurturing environment, the library inspires minds, sparking
+            imagination, critical thinking, and lifelong learning. Ultimately, the motto
+            highlights the library's mission to empower individuals with the tools and
+            resources they need to acquire wisdom and gain a deeper understanding of the
+            world around them.
+        </p>
+    </div>
+</div>

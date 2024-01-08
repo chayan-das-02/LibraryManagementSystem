@@ -1,0 +1,86 @@
+﻿@model IEnumerable<LibraryManagementSystem.Models.TransactionModel>
+
+@{
+    ViewData["Title"] = "Lend";
+}
+
+<h1>Lend</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.book_id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.book_title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user_name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.issue_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.expected_return_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.return_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.past_due_day)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.created_date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.modified_date)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+            @if (User.Identity.Name == item.user_name)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.book_id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.book_title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.user_name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.issue_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.expected_return_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.return_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.past_due_day)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.created_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.modified_date)
+                    </td>*@
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.transaction_id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.transaction_id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.transaction_id">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
